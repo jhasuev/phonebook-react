@@ -1,13 +1,30 @@
-import './App.css';
-import Button from '@mui/material/Button';
-import { AccessAlarm } from '@mui/icons-material';
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import MyToolbar from './components/MyToolbar/MyToolbar';
+import Grid from '@mui/material/Grid';
+import MyContent from './components/MyContent/MyContent';
 
-function App() {
+export default function ButtonAppBar() {
   return (
-    <div className="App">
-      <Button variant="contained">Hello World <AccessAlarm /></Button>
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+
+      <MyToolbar />
+
+      <Grid
+        container
+        justifyContent="center"
+      >
+        <Grid
+          item
+          xs={12}
+          sm={10}
+          md={6}
+          padding={2}
+        >
+          <MyContent />
+        </Grid>
+      </Grid>
+
+    </Box>
   );
 }
-
-export default App;
