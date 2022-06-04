@@ -27,6 +27,11 @@ export default function MyContent() {
       return isNameMatching || isPhoneMatching || isEmailMatching
     })
   }, [ contacts, search ])
+
+  const getContactNameLetter = (contact) => {
+    return contact?.name?.slice(0, 1).toUpperCase()
+  }
+
   return (
     <List
       sx={{ width: '100%', boxShadow: '0 0 10px rgba(0,0,0,.1)'}}
@@ -58,6 +63,12 @@ export default function MyContent() {
         {filteredContacts.map((contact, i) => (
           <div key={i}>
             { i ? <Divider /> : '' }
+            {
+              (getContactNameLetter(filteredContacts[i - 1]) !== getContactNameLetter(contact))
+              ? 
+                <ListSubheader inset>{ getContactNameLetter(contact) }</ListSubheader>
+              : ''
+            }
             <ContactItem contact={contact} />
           </div>
         ))}
