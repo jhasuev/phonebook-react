@@ -6,10 +6,27 @@ import {
   Divider,
 } from '@mui/material';
 
-import Contacts from '../Contacts/Contacts';
+import ContactItem from '../ContactItem/ContactItem';
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
+
 import Search from '../Search/Search';
 
 export default function MyContent() {
+  const { contacts, search } = useSelector((state) => state.contacts)
+
+  const filteredContacts = useMemo(() => {
+    const searchWord = search.trim().toLowerCase()
+    if (!searchWord) return contacts
+
+    return contacts.filter(contact => {
+      const isNameMatching = ~contact.name.toLowerCase().indexOf(searchWord)
+      const isPhoneMatching = ~contact.phone.toLowerCase().indexOf(searchWord)
+      const isEmailMatching = ~contact.email.toLowerCase().indexOf(searchWord)
+
+      return isNameMatching || isPhoneMatching || isEmailMatching
+    })
+  }, [ contacts, search ])
   return (
     <List
       sx={{ width: '100%', boxShadow: '0 0 10px rgba(0,0,0,.1)'}}
@@ -19,13 +36,32 @@ export default function MyContent() {
         <div>
           <Search />
           <ListSubheader component="div" id="nested-list-subheader">
-            All contacts: 8
+            Contacts count: {filteredContacts.length}
           </ListSubheader>
         </div>
       }
     >
       <Divider />
-      <Contacts />
+      <div>
+        {
+          !filteredContacts.length
+          ?
+            <ListSubheader component="div" sx={{ textAlign: 'center'}}>
+              {
+                search.trim()
+                ? <span>Contacts Was Not Found</span>
+                : <span>Contact list is empty</span>
+              }
+            </ListSubheader>
+          : ''
+        }
+        {filteredContacts.map((contact, i) => (
+          <div key={i}>
+            { i ? <Divider /> : '' }
+            <ContactItem contact={contact} />
+          </div>
+        ))}
+      </div>
     </List>
   );
 }

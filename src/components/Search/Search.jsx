@@ -1,12 +1,21 @@
 import * as React from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import {
+  Paper,
+  InputBase,
+  Divider,
+  IconButton,
+} from '@mui/material';
+
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import { changeSearch } from '../../store/contacts'
+
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function Search() {
+  const { search } = useSelector((state) => state.contacts)
+  const dispatch = useDispatch()
+  
   return (
     <Paper
       sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', shadow: 'none', bgcolor: '#f6f6f6'}}
@@ -19,8 +28,9 @@ export default function Search() {
       </IconButton>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search Google Maps"
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder="Search..."
+        value={search}
+        onInput={(e) => dispatch(changeSearch(e.target.value))}
       />
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
       <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">

@@ -19,8 +19,8 @@ import {
   Delete,
 } from '@mui/icons-material';
 
-export default function ContactItem() {
-  const [open, setOpen] = useState(true);
+export default function ContactItem({ contact }) {
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(!open);
@@ -29,8 +29,8 @@ export default function ContactItem() {
   return (
     <div>
       <ListItemButton onClick={handleClick}>
-        <Avatar sx={{ mr: 2 }}>H</Avatar>
-        <ListItemText primary="Contact name" secondary="+23477654334" />
+        <Avatar sx={{ mr: 2 }}>{ contact.name.slice(0, 1) }</Avatar>
+        <ListItemText primary={contact.name} secondary={contact.phone} />
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
       <Collapse in={open} timeout="auto" unmountOnExit>
@@ -47,10 +47,15 @@ export default function ContactItem() {
             <Call sx={{ fontSize: 18, mr: 1 }} />
             Call
           </Button>
-          <Button sx={{ flexGrow: 1}} variant="outlined">
-            <Mail sx={{ fontSize: 18, mr: 1 }} />
-            Write
-          </Button>
+          {
+            contact.email
+            ?
+              <Button sx={{ flexGrow: 1}} variant="outlined">
+                <Mail sx={{ fontSize: 18, mr: 1 }} />
+                Write
+              </Button>
+            : ''
+          }
           <IconButton sx={{ p: '10px' }}>
             <Edit />
           </IconButton>
