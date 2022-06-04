@@ -1,4 +1,5 @@
 import * as React from 'react';
+import EventEmitter from '../../plugins/EventEmitter'
 import {
   Paper,
   InputBase,
@@ -33,7 +34,12 @@ export default function Search() {
         onInput={(e) => dispatch(changeSearch(e.target.value))}
       />
       <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-      <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
+      <IconButton
+        color="primary"
+        sx={{ p: '10px' }}
+        aria-label="directions"
+        onClick={() => EventEmitter.$emit('SHOW_ADD_EDIT_CONTACT_POPUP')}
+      >
         <AddIcon />
       </IconButton>
     </Paper>

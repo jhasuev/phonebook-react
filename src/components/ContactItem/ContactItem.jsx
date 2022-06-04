@@ -1,5 +1,7 @@
 import { useState } from 'react';
-
+import EventEmitter from '../../plugins/EventEmitter'
+import { removeContact } from '../../store/contacts'
+import { useDispatch } from 'react-redux'
 import {
   List,
   ListItemButton,
@@ -20,6 +22,7 @@ import {
 } from '@mui/icons-material';
 
 export default function ContactItem({ contact }) {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -56,10 +59,16 @@ export default function ContactItem({ contact }) {
               </Button>
             : ''
           }
-          <IconButton sx={{ p: '10px' }}>
+          <IconButton
+            sx={{ p: '10px' }}
+            onClick={() => EventEmitter.$emit('SHOW_ADD_EDIT_CONTACT_POPUP', contact)}
+          >
             <Edit />
           </IconButton>
-          <IconButton sx={{ p: '10px' }}>
+          <IconButton
+            sx={{ p: '10px' }}
+            onClick={() => dispatch(removeContact(contact.id))}
+          >
             <Delete />
           </IconButton>
         </List>

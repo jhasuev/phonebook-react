@@ -61,7 +61,7 @@ export default function MyContent() {
           : ''
         }
         {filteredContacts.map((contact, i) => (
-          <div key={i}>
+          <div key={contact.id}>
             { i ? <Divider /> : '' }
             {
               (getContactNameLetter(filteredContacts[i - 1]) !== getContactNameLetter(contact))

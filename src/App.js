@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import MyToolbar from './components/MyToolbar/MyToolbar';
 import Grid from '@mui/material/Grid';
 import MyContent from './components/MyContent/MyContent';
+import AddEditContactPopup from './components/Popups/AddEditContactPopup/AddEditContactPopup'
 
 export default function ButtonAppBar() {
   return (
@@ -24,7 +25,7 @@ export default function ButtonAppBar() {
           <MyContent />
         </Grid>
       </Grid>
-
+      <AddEditContactPopup />
     </Box>
   );
 }
