@@ -99,6 +99,8 @@ export default function MyToolbar() {
         </Typography>
 
         <IconButton
+          href='https://github.com/jhasuev/phonebook-react'
+          target='_blank'
           size="large"
           edge="start"
           color="inherit"
