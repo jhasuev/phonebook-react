@@ -29,6 +29,31 @@ export const contactsSlice = createSlice({
       })
     },
 
+    addContacts: (state, { payload: contacts }) => {
+      const mustAddContacts = []
+
+      contacts.forEach((newContact, i) => {
+        if(!newContact.name && !newContact.phone) return
+
+        const exist = state.contacts.some(oldContact => {
+          const sameName = oldContact.name === newContact.name
+          const samePhone = oldContact.phone === newContact.phone
+          const sameEmail = oldContact.email === newContact.email
+
+          return sameName && samePhone & sameEmail
+        })
+
+        if (!exist) {
+          mustAddContacts.push({
+            ...newContact,
+            id: parseInt(Math.random() * 10 ** 18 + Date.now() + i).toString(36)
+          })
+        }
+      })
+
+      state.contacts.push(...mustAddContacts)
+    },
+
     editContact: (state, { payload }) => {
       state.contacts = state.contacts.map(contact => {
         if (payload.id === contact.id) {
@@ -47,6 +72,12 @@ export const contactsSlice = createSlice({
   },
 })
 
-export const { addContact, editContact, removeContact, changeSearch } = contactsSlice.actions
+export const {
+  addContact,
+  addContacts,
+  editContact,
+  removeContact,
+  changeSearch,
+} = contactsSlice.actions
 
 export default contactsSlice.reducer

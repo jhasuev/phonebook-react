@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import EventEmitter from '../../plugins/EventEmitter'
 import {
   AppBar,
   Toolbar,
@@ -33,6 +33,28 @@ export default function MyToolbar() {
 
     setDrawerState(state);
   };
+
+  const onMenuClick = (type) => {
+    switch (type) {
+      case 'add': {
+        EventEmitter.$emit('SHOW_ADD_EDIT_CONTACT_POPUP')
+        break;
+      }
+      case 'import': {
+        EventEmitter.$emit('SHOW_IMPORT_CONTACT_POPUP')
+        break;
+      }
+      case 'export': {
+        break;
+      }
+      case 'export_to_csv': {
+        break;
+      }
+      default: {}
+    }
+
+    setDrawerState(false)
+  }
 
   return (
     <AppBar position="static">
@@ -69,23 +91,31 @@ export default function MyToolbar() {
           <List>
             {[
               {
+                name: 'add',
                 text: 'New contact',
                 icon: 'Add'
               },
               {
+                name: 'import',
                 text: 'Import',
                 icon: 'FileDownload',
               },
               {
+                name: 'export',
                 text: 'Export',
                 icon: 'FileUpload',
               },
               {
+                name: 'export_to_csv',
                 text: 'Export to CSV',
                 icon: 'Article',
               }
-            ].map(({text, icon}, index) => (
-              <ListItem key={text} disablePadding>
+            ].map(({name, text, icon}, index) => (
+              <ListItem
+                key={text}
+                disablePadding
+                onClick={() => onMenuClick(name)}
+              >
                 <ListItemButton>
                   <ListItemIcon>
                     {icon === 'Add' ? <Add /> : ''}

@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-export default function AddContactPopup() {
+export default function AddEditContactPopup() {
   const dispatch = useDispatch()
 
   const [open, setOpen] = React.useState(false)
