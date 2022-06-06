@@ -17,15 +17,25 @@ export default function MyContent() {
 
   const filteredContacts = useMemo(() => {
     const searchWord = search.trim().toLowerCase()
-    if (!searchWord) return contacts
+    let filtered = [...contacts]
 
-    return contacts.filter(contact => {
-      const isNameMatching = ~contact.name.toLowerCase().indexOf(searchWord)
-      const isPhoneMatching = ~contact.phone.toLowerCase().indexOf(searchWord)
-      const isEmailMatching = ~contact.email.toLowerCase().indexOf(searchWord)
+    if (searchWord) {
+      filtered = contacts.filter(contact => {
+        const isNameMatching = ~contact.name.toLowerCase().indexOf(searchWord)
+        const isPhoneMatching = ~contact.phone.toLowerCase().indexOf(searchWord)
+        const isEmailMatching = ~contact.email.toLowerCase().indexOf(searchWord)
+  
+        return isNameMatching || isPhoneMatching || isEmailMatching
+      })
+    }
 
-      return isNameMatching || isPhoneMatching || isEmailMatching
-    })
+    return filtered.sort((a, b) => (
+      a.name
+        .toLowerCase()
+        .localeCompare(
+          b.name.toLowerCase()
+        )
+    ))
   }, [ contacts, search ])
 
   const getContactNameLetter = (contact) => {
