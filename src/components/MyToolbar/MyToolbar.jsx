@@ -13,7 +13,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-
+import { useSelector } from 'react-redux'
 import {
   Menu,
   Add,
@@ -24,6 +24,7 @@ import {
 } from '@mui/icons-material';
 
 export default function MyToolbar() {
+  const { contacts } = useSelector((state) => state.contacts)
   const [drawerState, setDrawerState] = useState(false);
 
   const toggleDrawer = (state) => (event) => {
@@ -33,6 +34,28 @@ export default function MyToolbar() {
 
     setDrawerState(state);
   };
+
+  const downloadInFile = (text, format = 'txt') => {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/' + format + ';charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', 'contacts_backup.' + format);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+  
+  const loadJSONData = () => {
+    const data = JSON.stringify(contacts)
+    downloadInFile(data, 'json')
+  }
+  
+  const loadCSVData = () => {
+    const data = contacts.reduce((acc, {name, phone, email}) => {
+      return `${acc}\n${name},${phone},${email}`
+    }, '').trim()
+    downloadInFile(data, 'csv')
+  }
 
   const onMenuClick = (type) => {
     switch (type) {
@@ -45,9 +68,11 @@ export default function MyToolbar() {
         break;
       }
       case 'export': {
+        loadJSONData()
         break;
       }
       case 'export_to_csv': {
+        loadCSVData()
         break;
       }
       default: {}
